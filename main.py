@@ -1,7 +1,5 @@
 import keyboard
 import get_chips
-import multiprocessing as mp
-import platform
 from buffer import RingBuffer
 from frozen_dict import FrozenDict
 
@@ -168,31 +166,9 @@ def _process_event(event: keyboard.KeyboardEvent):
         _buffer.add(utf)
 
 
-def process_events(queue):
-
-    keyboard.patient_collision_safe_mode()
-    while True:
-        event = queue.get()
-        _process_event(event)
-
-
-queue = mp.Queue(maxsize=10000)
-
-
-def add_to_queue(event):
-    queue.put(event)
-
-
 def main():
-
-    if platform.system() == "Linux":
-        keyboard.hook(add_to_queue)
-        worker = mp.Process(target=process_events, args=(queue,))
-        worker.start()
-        worker.join()
-    else:
-        keyboard.hook(_process_event)
-        keyboard.wait()
+    keyboard.hook(_process_event)
+    keyboard.wait()
 
 
 if __name__ == "__main__":
