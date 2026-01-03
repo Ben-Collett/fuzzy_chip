@@ -80,7 +80,6 @@ def _process_event(event: keyboard.KeyboardEvent):
     global expected_counter, punct_expected_counter, _typing
 
     name: str = event.name
-    print(_buffer, name)
 
     if auto_append and name in append_chars:
         leading_whitespace = _buffer.get_trailing_white_space()
@@ -136,13 +135,13 @@ def _process_event(event: keyboard.KeyboardEvent):
         process_chip = True
         _buffer.add(' ')
         white_space = _buffer.get_trailing_white_space()
-        print(white_space.replace(" ", "space"))
         prev_whitespace = _buffer.get_white_space_before_prev_word()
         word = _buffer.get_prev_word()
-        print("p1")
 
+        PUNCTUATION_PLUS_SPACE = 2
+        at_start_of_buffer = len(_buffer) <= PUNCTUATION_PLUS_SPACE
         # append punctuation when spacing
-        if word in append_chars and punct_expected_counter == 0 and len(white_space) == 1:
+        if word in append_chars and punct_expected_counter == 0 and len(white_space) == 1 and not at_start_of_buffer:
             punct_expected_counter = len(prev_whitespace) + len(word) + 1
             _backspace(punct_expected_counter)
             write(word+prev_whitespace)

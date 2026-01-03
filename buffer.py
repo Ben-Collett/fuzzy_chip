@@ -55,7 +55,6 @@ class RingBuffer:
         elif lower == 0 and not chars[lower].isspace():
             lower += 1
 
-        print("chars", chars[lower:upper+1])
         return ''.join(chars[lower:upper+1])
 
     def should_captlize_prev_word(self, captilize_after=[]) -> bool:
@@ -117,3 +116,6 @@ class RingBuffer:
             return self.buffer[-1]
         else:
             return None  # Return None if buffer is empty
+
+    def __len__(self):
+        return len(self.buffer)
