@@ -132,8 +132,9 @@ def _process_event(event: keyboard.KeyboardEvent):
 
     is_space = name == "space"
     _typing = expected_counter > 0
-    if is_space and released_key and not shift_down and not _typing:
+    if is_space and pressed_key and not shift_down and not _typing:
         process_chip = True
+        _buffer.add(' ')
         white_space = _buffer.get_trailing_white_space()
         print(white_space.replace(" ", "space"))
         prev_whitespace = _buffer.get_white_space_before_prev_word()
@@ -145,18 +146,15 @@ def _process_event(event: keyboard.KeyboardEvent):
             punct_expected_counter = len(prev_whitespace) + len(word) + 1
             _backspace(punct_expected_counter)
             write(word+prev_whitespace)
-            print("p2", _buffer)
             return
         # I don't want to process as chip unless there was exactly one ' '
         if white_space != ' ':
             process_chip = False
-            print("p3", _buffer)
         char_frequency = FrozenDict.from_string(word)
         to_write = ""
 
         if process_chip and char_frequency in _chip_map.keys():
             to_write = _chip_map[char_frequency]
-            print("p4")
 
         should_capitalize = punct_expected_counter == 0 and _buffer.should_captlize_prev_word(
             captilize_after=captlize_after)
@@ -167,10 +165,20 @@ def _process_event(event: keyboard.KeyboardEvent):
                 to_write = to_write.capitalize()
 
         if to_write != "" and to_write != word:
-            _backspace(len(word)+1)
+            overlapping_start = 0
+            for i in range(min(len(to_write), len(word))):
+                if to_write[i] != word[i]:
+                    break
+                overlapping_start += 1
+
+            to_write = to_write[overlapping_start:]
+            _backspace(len(word)+1-overlapping_start)
             expected_counter = len(to_write)+2
             write(to_write)
             write(" ")
+            return
+        # backspace space if not writing
+        _buffer.backspace()
 
     if released_key:
         return
