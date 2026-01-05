@@ -20,6 +20,8 @@
 "if" = "if"
 "we" = "we"
 "as" = "as"
+"am" = "am"
+"my" = "my"
 
 "his" = "his"
 "now" = "now"
@@ -37,7 +39,6 @@
 "th" = "that"
 "f" = "for"
 "bu" = "but"
-"ma" = "my"
 "ar" = "are"
 "nt" = "not"
 "yr" = "your"
@@ -49,7 +50,7 @@
 "wt" = "what"
 "ty" = "they"
 "wn" = "when"
-"cn" = "can"
+"c" = "can"
 "kw" = "know"
 "oe" ="one"
 "tr" = "there"
@@ -112,5 +113,6 @@
 "b" = "be"
 "yv" = "you've"
 "d" = "and"
+"r" = "are"
 "di"  = "did"
 
