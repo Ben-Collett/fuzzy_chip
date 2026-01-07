@@ -80,6 +80,9 @@ def _process_event(event: keyboard.KeyboardEvent):
     global expected_counter, punct_expected_counter, _typing
 
     name: str = event.name
+    print(name)
+    print(_buffer)
+    print("------------------------------------------------")
 
     if auto_append and name in append_chars:
         leading_whitespace = _buffer.get_trailing_white_space()
