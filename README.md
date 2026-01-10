@@ -51,7 +51,7 @@ You can set a key(defaults to shift) where if you press and realase that key, it
 
 ## Installation
 ```bash
-git clone https://github.com/Ben-Collett/fuzzy_chip 
+git clone https://github.com/Ben-Collett/fuzzy_chips 
 ```
 
 ## Configuration
@@ -62,9 +62,9 @@ The program will first look inside the program’s directory
 It will then fall back to the configuration directory location depending on your OS.
 
 
-On Linux this is usually `~/.config/fuzzy_chip/config.toml`
+On Linux this is usually `~/.config/fuzzy_chips/config.toml`
 
-On Windows: `C:\Users\<username>\AppData\Roaming\fuzzy_chip\config.toml`
+On Windows: `C:\Users\<username>\AppData\Roaming\fuzzy_chips\config.toml`
 
 The toml config has two main tags: general for all settings, and chips to define chips.
 
