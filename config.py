@@ -49,6 +49,11 @@ class Config:
         self.toggle_case_on = get_general("toggle_case_on", ["shift"])
         self.clear_buffer_on_keys = get_general("clear_buffer_on", [
                                                 "windows_down", "alt_down", "ctrl_down", "left", "right", "up", "down"])
+        self.shift_backspace_included_delimiters = get_general(
+            # different kinds of dashes minus,  emdash, endash hyphen
+            "shift_backspace_included_delimiters", ["_", "-", "—", "−", "‐"])
+        self.shift_backspace_excluded_delimiters = get_general(
+            "shift_backspace_excluded_delimiters", [" "])
 
 
 current_config = Config(_load_toml())
