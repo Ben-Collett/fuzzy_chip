@@ -6,6 +6,8 @@ from utils import backspaces_to_delete_previous_word
 from command_processor import CommandProcessor
 from commands import make_processor
 import threading
+import sys
+import os
 
 stop_event = threading.Event()
 
@@ -14,8 +16,8 @@ def _terminate(_):
     stop_event.set()
 
 
-command_processor: CommandProcessor = make_processor()
-command_processor.register("quit", _terminate)
+expected_counter = 0
+_buffer = RingBuffer(100)
 
 
 def is_empty(iterable):
@@ -23,10 +25,6 @@ def is_empty(iterable):
 
 
 keyboard.patient_collision_safe_mode()
-_buffer = RingBuffer(100)
-
-
-expected_counter = 0
 
 
 def _toggle_capitlization(s: str):
@@ -112,6 +110,29 @@ def backspace_then_write(backspace_count, to_write, update_expected=True):
         expected_counter = backspace_count + len(to_write)
     _backspace(backspace_count)
     write(to_write)
+
+
+def restart(_):
+    print("restarting")
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
+
+# command processor logic
+command_processor: CommandProcessor = make_processor()
+command_processor.register("quit", _terminate)
+command_processor.register("restart", restart)
+
+# effects previous word
+command_processor.register("toggle_case", _terminate)
+command_processor.register("upper_case", _terminate)
+command_processor.register("lower_case", _terminate)
+command_processor.register("all_caps", _terminate)
+
+# effects what happens when you press space
+command_processor.register("snake_mode", _terminate)
+command_processor.register("proper_mode", _terminate)
+command_processor.register("cammel_mode", _terminate)
+command_processor.register("upper_snake", _terminate)
 
 
 def _process_event(event: keyboard.KeyboardEvent, config=current_config):
@@ -284,7 +305,10 @@ def _process_event(event: keyboard.KeyboardEvent, config=current_config):
 
 def main():
     keyboard.hook(_process_event)
-    stop_event.wait()
+    try:
+        stop_event.wait()
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":

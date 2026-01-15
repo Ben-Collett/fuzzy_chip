@@ -36,6 +36,7 @@
 "'l" = ["backspace", "'", "l", "l", "space"]
 "rl" = ["reload_config"]
 "qui" = ["quit"]
+"ras" = ["restart"]
 # "'h" = ["hyphen-mode"]
 # "'u" = ["snake-mode"]
 "t," = "this is dumb, but legal and useful for testing"  # just keep in mind if you do this and you have auto append on and , set to append you better hit t before ,
